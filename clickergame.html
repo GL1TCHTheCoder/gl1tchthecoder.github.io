@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #score {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .upgrade {
+            margin: 10px;
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Clicker Game</h1>
+    <div id="score">Score: <span id="scoreValue">0</span></div>
+    <button id="clickButton">Click Me!</button>
+
+    <h2>Upgrades</h2>
+    <div id="upgrades">
+        <!-- Upgrade buttons will be added here dynamically -->
+    </div>
+
+    <script>
+        var score = 0;
+
+        // Check if local storage has the score and upgrades saved
+        if(localStorage.getItem('clickerScore') !== null) {
+            score = parseInt(localStorage.getItem('clickerScore'));
+            document.getElementById('scoreValue').innerText = score;
+        }
+
+        var upgrades = [];
+
+        // Load upgrades from local storage if available
+        if(localStorage.getItem('clickerUpgrades') !== null) {
+            upgrades = JSON.parse(localStorage.getItem('clickerUpgrades'));
+        }
+
+        // Add 25 upgrades with increasing costs and powers
+        for (var i = 0; i < 25; i++) {
+            upgrades.push({ cost: 10 * (i + 1), power: 1 + i });
+        }
+
+        // Function to update upgrade buttons
+        function updateUpgradeButtons() {
+            var upgradesDiv = document.getElementById('upgrades');
+            upgradesDiv.innerHTML = ''; // Clear existing buttons
+            upgrades.forEach(function(upgrade, index) {
+                var upgradeButton = document.createElement('button');
+                upgradeButton.classList.add('upgrade');
+                upgradeButton.innerText = "Upgrade " + (index + 1) + " (Cost: " + upgrade.cost + ")";
+                upgradeButton.addEventListener('click', function() {
+                    if (score >= upgrade.cost) {
+                        score -= upgrade.cost;
+                        document.getElementById('scoreValue').innerText = score;
+                        localStorage.setItem('clickerScore', score);
+
+                        // Increase power
+                        upgrade.power++;
+                        // Increase cost
+                        upgrade.cost = Math.floor(upgrade.cost * 1.5);
+
+                        // Update button text
+                        this.innerText = "Upgrade " + (index + 1) + " (Cost: " + upgrade.cost + ")";
+                        localStorage.setItem('clickerUpgrades', JSON.stringify(upgrades));
+                    } else {
+                        alert("Not enough score to buy this upgrade!");
+                    }
+                });
+                upgradesDiv.appendChild(upgradeButton);
+            });
+        }
+
+        updateUpgradeButtons();
+
+        // Function to handle clicking the button
+        document.getElementById('clickButton').addEventListener('click', function() {
+            score += 1;
+            document.getElementById('scoreValue').innerText = score;
+            localStorage.setItem('clickerScore', score);
+            // Update upgrade buttons' availability
+            updateUpgradeButtons();
+        });
+    </script>
+</body>
+</html>
