@@ -69,7 +69,7 @@
   <div class="spike" id="spike" style="left:2px"></div>
   <div onclick="move()" class="cube" style="animation-name:ss;animation-duration:750ms;" id="cube"></div> 
 </html>
-<button onclick="p()" class="pausetgl">pause</button>
+<button onclick="pause()" class="pausetgl">pause</button>
 <div id="pause" class="pause" style="display:none">
   <button class="pausebutton" onclick="saveprogress()">save</button><br>
   <button class="pausebutton" onclick="l()">load</button><br>
@@ -87,7 +87,14 @@
   var verticalPosition = 250; // Initial vertical position
   var verticalVelocity = 0; // Initial vertical velocity
   var trailInterval;
-
+  function pause() {
+    var s = document.getElementById('pause')
+    if (s.style.display == "none") {
+      s.style.display == "block"
+    } else {
+      s.style.display == "none"
+    }
+  }
   function p() {
     var data = "Level=" + level + "\nSPEED=" + speed;
     var blob = new Blob([data], { type: "text/plain;charset=utf-8" });
