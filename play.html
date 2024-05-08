@@ -88,13 +88,14 @@
   var verticalVelocity = 0; // Initial vertical velocity
   var trailInterval;
   function pause() {
-    var s = document.getElementById('pause')
-    if (s.style.display == "none") {
-      s.style.display == "block"
-    } else {
-      s.style.display == "none"
-    }
+   var pauseMenu = document.getElementById('pause');
+  if (pauseMenu.style.display === "none") {
+    pauseMenu.style.display = "block";
+  } else {
+    pauseMenu.style.display = "none";
   }
+  }
+
   function p() {
     var data = "Level=" + level + "\nSPEED=" + speed;
     var blob = new Blob([data], { type: "text/plain;charset=utf-8" });
