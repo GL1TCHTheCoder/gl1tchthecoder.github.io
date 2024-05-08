@@ -22,17 +22,20 @@
     .cube {
       width: 50px;
       height: 50px;
-      top: 250px;
       position: fixed;
       background-color: blue;
     }
     .spike {
       background-color: blue;
-      left: 0px;
-      top: 250px;
       width: 25px;
       height: 50px;
       position: fixed;
+    }
+    .trail {
+      width: 50px;
+      height: 50px;
+      position: fixed;
+      background-color: rgba(0, 0, 255, 0.3);
     }
     .pausetgl {
       top: 25px;
@@ -78,6 +81,10 @@
   var level = 1;
   var isAnimating = false;
   var spikeCount = 0;
+  var waveUnlocked = false; // Track if wave game mode is unlocked
+  var verticalPosition = 250; // Initial vertical position
+  var verticalVelocity = 0; // Initial vertical velocity
+  var trailInterval;
 
   function p() {
     var data = "Level=" + level + "\nSPEED=" + speed;
@@ -162,15 +169,30 @@
     cube.style.left = (currentLeft + speed) + 'px';
     if (currentLeft >= window.innerWidth) {
       cube.style.left = "0px";
-      level += 0.25;
+      level += 0.5;
       speed = level * 3
       spikeCount++;
       if (spikeCount % 7 === 0) {
-        var leftLimit = window.innerWidth * 0.4;
-        var randomLeft = Math.floor(Math.random() * (window.innerWidth - leftLimit)) + leftLimit;
-        spike.style.left = randomLeft + 'px';
+        if (waveUnlocked) { // Only add spikes if wave game mode is unlocked
+          for (let i = 0; i < 10; i++) {
+            createSpike();
+          }
+        } else {
+          var leftLimit = window.innerWidth * 0.4;
+          var randomLeft = Math.floor(Math.random() * (window.innerWidth - leftLimit)) + leftLimit;
+          spike.style.left = randomLeft + 'px';
+        }
       }
     }
+  }
+
+  function createSpike() {
+    var newSpike = document.createElement('div');
+    newSpike.className = 'spike';
+    var leftLimit = window.innerWidth * 0.4;
+    var randomLeft = Math.floor(Math.random() * (window.innerWidth - leftLimit)) + leftLimit;
+    newSpike.style.left = randomLeft + 'px';
+    document.body.appendChild(newSpike);
   }
 
   spike.style.left = Math.floor(Math.random() * window.innerWidth) + 'px';
@@ -178,8 +200,48 @@
   function main() {
     moveCube();
     checkCollision();
-    setTimeout(main, 10);
+    setTimeout(main, 25);
   }
+
+  function startTrail() {
+    trailInterval = setInterval(function () {
+      var trail = document.createElement('div');
+      trail.className = 'trail';
+      trail.style.left = cube.style.left;
+      trail.style.top = cube.style.top;
+      document.body.appendChild(trail);
+      setTimeout(function () {
+        trail.remove();
+      }, 1000); // Adjust trail duration as needed
+    }, 100); // Adjust trail frequency as needed
+  }
+
+  function stopTrail() {
+    clearInterval(trailInterval);
+  }
+
+  function moveVertically() {
+    cube.style.top = verticalPosition + 'px';
+    verticalPosition += verticalVelocity;
+    if (verticalPosition <= 0) {
+      verticalPosition = 0;
+      verticalVelocity = 0;
+    }
+    if (verticalPosition >= window.innerHeight - cube.offsetHeight) {
+      verticalPosition = window.innerHeight - cube.offsetHeight;
+      verticalVelocity = 0;
+    }
+  }
+
+  document.addEventListener('mousedown', function () {
+    verticalVelocity = -5; // Adjust jump height as needed
+    startTrail();
+  });
+
+  document.addEventListener('mouseup', function () {
+    verticalVelocity = 5; // Adjust fall speed as needed
+    stopTrail();
+  });
 
   main();
 </script>
