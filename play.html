@@ -64,7 +64,7 @@
 </div>
 <script src="https://raw.githubusercontent.com/yrezgui/FileSaver.js/master/FileSaver.js"></script><script type="text/javascript">var cube = document.getElementById('cube');
 var spike = document.getElementById('spike');
-var speed = 4;
+var speed = 3;
 var level = 1;
 var isAnimating = false;
 function saveprogress() {
@@ -92,7 +92,7 @@ function p() {
     speed = 0
   } else {
     pauseMenu.style.display = "none";
-    speed = level * 4
+    speed = level * 3
   }
 }
 document.onkeydown = function (e) {
@@ -129,7 +129,7 @@ function moveCube() {
   cube.style.left = (currentLeft + speed) + 'px';
   if (currentLeft >= window.innerWidth) {
     cube.style.left = "0px";
-    level += 0.5;
+    level += 0.25;
     speed = level * 4
     spike.style.left = Math.floor(Math.random() * window.innerWidth) + 'px';
   }
