@@ -22,12 +22,14 @@
     .cube {
       width: 50px;
       height: 50px;
+      bottom: 30%;
       position: fixed;
       background-color: blue;
     }
     .spike {
       background-color: blue;
       width: 25px;
+      bottom: 30%;
       height: 50px;
       position: fixed;
     }
@@ -172,7 +174,7 @@
       level += 0.5;
       speed = level * 3
       spikeCount++;
-      if (spikeCount % 7 === 0) {
+      if (level === 10) {
         if (waveUnlocked) { // Only add spikes if wave game mode is unlocked
           for (let i = 0; i < 10; i++) {
             createSpike();
