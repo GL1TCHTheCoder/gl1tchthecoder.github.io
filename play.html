@@ -68,34 +68,55 @@ var spike = document.getElementById('spike');
 var speed = 3;
 var level = 1;
 var isAnimating = false;
-function saveprogress() {
+
+function p() {
   var data = "Level=" + level + "\nSPEED=" + speed;
   var blob = new Blob([data], { type: "text/plain;charset=utf-8" });
   saveAs(blob, "savedata");
 }
+function saveprogress() {
+  var data = {
+    level: level,
+    speed: speed
+  };
+
+  // Convert data to JSON string
+  var jsonData = JSON.stringify(data);
+
+  // Create a new Blob object with the JSON data
+  var blob = new Blob([jsonData], { type: "application/json" });
+
+  // Prompt user to save the file
+  var fileName = "savedata.json";
+  if (window.navigator.msSaveOrOpenBlob) {
+    window.navigator.msSaveOrOpenBlob(blob, fileName);
+  } else {
+    var a = document.createElement("a");
+    var url = URL.createObjectURL(blob);
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function() {
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }, 0);
+  }
+}
+
 function l() {
   var fileInput = document.getElementById('fi');
   var file = fileInput.files[0];
   var reader = new FileReader();
   reader.onload = function (event) {
     var loadedData = event.target.result;
-    var data = loadedData.split('\n');
-    level = parseInt(data[0].split('=')[1]);
-    speed = parseInt(data[1].split('=')[1]);
+    var jsonData = JSON.parse(loadedData);
+    level = jsonData.level;
+    speed = jsonData.speed;
   };
   reader.readAsText(file);
 }
 
-function p() {
-  var pauseMenu = document.getElementById('pause');
-  if (pauseMenu.style.display === "none") {
-    pauseMenu.style.display = "block";
-    speed = 0
-  } else {
-    pauseMenu.style.display = "none";
-    speed = level * 3
-  }
-}
 document.onkeydown = function (e) {
   if (e.keyCode == 32) {
     move()
