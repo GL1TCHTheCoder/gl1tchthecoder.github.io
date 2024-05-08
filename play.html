@@ -74,7 +74,7 @@
 <script type="text/javascript">
   var cube = document.getElementById('cube');
   var spike = document.getElementById('spike');
-  var speed = 3.2;
+  var speed = 3;
   var level = 1;
   var isAnimating = false;
   var spikeCount = 0;
@@ -162,11 +162,11 @@
     cube.style.left = (currentLeft + speed) + 'px';
     if (currentLeft >= window.innerWidth) {
       cube.style.left = "0px";
-      level += 0.1;
-      speed = Math.min(10, level * 0.1);
+      level += 0.25;
+      speed = level * 3
       spikeCount++;
       if (spikeCount % 7 === 0) {
-        var leftLimit = window.innerWidth * 0.2; // 20% from the left
+        var leftLimit = window.innerWidth * 0.4;
         var randomLeft = Math.floor(Math.random() * (window.innerWidth - leftLimit)) + leftLimit;
         spike.style.left = randomLeft + 'px';
       }
