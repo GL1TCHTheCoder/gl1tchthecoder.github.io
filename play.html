@@ -90,9 +90,13 @@
     var trailInterval;
     
     function pause() {
-      var pauseMenu = document.getElementById('pause');
-      pauseMenu.style.display = (pauseMenu.style.display === "none") ? "block" : "none";
-    }
+  var pauseMenu = document.getElementById('pause');
+  if (pauseMenu.style.display === "none") {
+    pauseMenu.style.display = "block";
+  } else {
+    pauseMenu.style.display = "none";
+  }
+}
 
     function saveprogress() {
       var data = {
