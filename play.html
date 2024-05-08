@@ -1,256 +1,203 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-  <style type="text/css">
-    .pause {
-      width: 500px;
-      height: 600px;
-      left: 10%;
-      top: 12%;
-      background-color: white;
-      position: fixed;
-      display: none; /* Initially hidden */
-    }
-    .pausebutton {
-      width: 50px;
-      height: 26px;
-      background-color: black;
-      color: white;
-      font-size: 20px;
-      font-family: monospace;
-    }
-    .cube {
-      width: 50px;
-      height: 50px;
-      bottom: 30%;
-      position: fixed;
-      background-color: blue;
-      cursor: pointer; /* Change cursor to pointer */
-    }
-    .spike {
-      background-color: blue;
-      width: 25px;
-      bottom: 30%;
-      height: 50px;
-      position: fixed;
-    }
-    .trail {
-      width: 50px;
-      height: 50px;
-      position: fixed;
-      background-color: rgba(0, 0, 255, 0.3);
-    }
-    .pausetgl {
-      top: 25px;
-      left: 25px;
-      position: fixed;
-      background-color: grey;
-      color: white;
-      border-radius: 15px;
-    }
-    @keyframes jump {
-      0% {}
-      20% {
-        transform: translate(0, -75px);
-      }
-      50% {
-        transform: translate(0, -100px);
-      }
-      67% {
-        transform: translate(0, -75px);
-      }
-      100% {
-        transform: translate(0, 0);
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="spike" id="spike" style="left:2px"></div>
-  <div onclick="move()" class="cube" style="animation-name: jump; animation-duration: 750ms;" id="cube"></div> 
-  <button onclick="pause()" class="pausetgl">pause</button>
-  <div id="pause" style="display:none;" class="pause">
-    <button class="pausebutton" onclick="saveprogress()">save</button><br>
-    <button class="pausebutton" onclick="l()">load</button><br>
-    <input type="file" id="fi">drag save data here</input>
-  </div>
-
-  <script src="https://raw.githubusercontent.com/yrezgui/FileSaver.js/master/FileSaver.js"></script>
-  <script type="text/javascript">
-    var cube = document.getElementById('cube');
-    var spike = document.getElementById('spike');
-    var speed = 3;
-    var level = 1;
-    var isAnimating = false;
-    var spikeCount = 0;
-    var waveUnlocked = false; // Track if wave game mode is unlocked
-    var verticalPosition = 250; // Initial vertical position
-    var verticalVelocity = 0; // Initial vertical velocity
-    var trailInterval;
-    
-    function pause() {
-  var pauseMenu = document.getElementById('pause');
-  if (pauseMenu.style.display === "none") {
-    pauseMenu.style.display = "block";
-  } else {
-    pauseMenu.style.display = "none";
-  }
-}
-
-    function saveprogress() {
-      var data = {
-        level: level,
-        speed: speed
-      };
-
-      // Convert data to JSON string
-      var jsonData = JSON.stringify(data);
-
-      // Create a new Blob object with the JSON data
-      var blob = new Blob([jsonData], { type: "application/json" });
-
-      // Prompt user to save the file
-      var fileName = "savedata.json";
-      if (window.navigator.msSaveOrOpenBlob) {
-        window.navigator.msSaveOrOpenBlob(blob, fileName);
-      } else {
-        var a = document.createElement("a");
-        var url = URL.createObjectURL(blob);
-        a.href = url;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(function () {
-          document.body.removeChild(a);
-          window.URL.revokeObjectURL(url);
-        }, 0);
-      }
-    }
-
-    function l() {
-      var fileInput = document.getElementById('fi');
-      var file = fileInput.files[0];
-      var reader = new FileReader();
-      reader.onload = function (event) {
-        var loadedData = event.target.result;
-        var jsonData = JSON.parse(loadedData);
-        level = jsonData.level;
-        speed = jsonData.speed;
-      };
-      reader.readAsText(file);
-    }
-
-    document.onkeydown = function (e) {
-      if (e.keyCode == 32) {
-        move()
-      }
-    };
-
-    function move() {
-      if (!isAnimating) {
-        cube.style.animationName = "jump";
-        isAnimating = true;
-        setTimeout(function () {
-          cube.style.animationName = "";
-          isAnimating = false;
-        }, 750);
-      }
-    }
-
-    function checkCollision() {
-      var cubeRect = cube.getBoundingClientRect();
-      var spikeRect = spike.getBoundingClientRect();
-
-      if (cubeRect.left < spikeRect.right &&
-        cubeRect.right > spikeRect.left &&
-        cubeRect.top < spikeRect.bottom &&
-        cubeRect.bottom > spikeRect.top) {
-        window.location.href = "gameover.html";
-      }
-    }
-
-    function moveCube() {
-      var currentLeft = parseInt(cube.style.left) || 0;
-      cube.style.left = (currentLeft + speed) + 'px';
-      if (currentLeft >= window.innerWidth) {
-        cube.style.left = "0px";
-        level += 0.5;
-        speed = level * 3
-        spikeCount++;
-        if (level === 10) {
-          if (waveUnlocked) { // Only add spikes if wave game mode is unlocked
-            for (let i = 0; i < 10; i++) {
-              createSpike();
-            }
-          } else {
-            var leftLimit = window.innerWidth * 0.4;
-            var randomLeft = Math.floor(Math.random() * (window.innerWidth - leftLimit)) + leftLimit;
-            spike.style.left = randomLeft + 'px';
-          }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style type="text/css">
+        .pause {
+            width: 500px;
+            height: 600px;
+            left: 10%;
+            top: 12%;
+            background-color: white;
+            position: fixed;
         }
-      }
-    }
 
-    function createSpike() {
-      var newSpike = document.createElement('div');
-      newSpike.className = 'spike';
-      var leftLimit = window.innerWidth * 0.4;
-      var randomLeft = Math.floor(Math.random() * (window.innerWidth - leftLimit)) + leftLimit;
-      newSpike.style.left = randomLeft + 'px';
-      document.body.appendChild(newSpike);
-    }
+        .pausebutton {
+            width: 50px;
+            height: 26px;
+            background-color: black;
+            color: white;
+            font-size: 20px;
+            font-family: monospace;
+        }
 
-    spike.style.left = Math.floor(Math.random() * window.innerWidth) + 'px';
+        .cube {
+            width: 50px;
+            height: 50px;
+            top: 250px;
+            position: fixed;
+            background-color: blue;
+        }
 
-    function main() {
-      moveCube();
-      checkCollision();
-      setTimeout(main, 25);
-    }
+        .spike {
+            background-color: blue;
+            left: 0px;
+            top: 250px;
+            width: 25px;
+            height: 50px;
+            position: fixed;
+        }
 
-    function startTrail() {
-      trailInterval = setInterval(function () {
-        var trail = document.createElement('div');
-        trail.className = 'trail';
-        trail.style.left = cube.style.left;
-        trail.style.top = cube.style.top;
-        document.body.appendChild(trail);
-        setTimeout(function () {
-          trail.remove();
-        }, 1000); // Adjust trail duration as needed
-      }, 100); // Adjust trail frequency as needed
-    }
+        .pausetgl {
+            top: 25px;
+            left: 25px;
+            position: fixed;
+            background-color: grey;
+            color: white;
+            border-radius: 15px;
+        }
 
-    function stopTrail() {
-      clearInterval(trailInterval);
-    }
+        @keyframes jump {
+            0% {}
 
-    function moveVertically() {
-      cube.style.top = verticalPosition + 'px';
-      verticalPosition += verticalVelocity;
-      if (verticalPosition <= 0) {
-        verticalPosition = 0;
-        verticalVelocity = 0;
-      }
-      if (verticalPosition >= window.innerHeight - cube.offsetHeight) {
-        verticalPosition = window.innerHeight - cube.offsetHeight;
-        verticalVelocity = 0;
-      }
-    }
+            20% {
+                transform: translate(0, -75px);
+            }
 
-    document.addEventListener('mousedown', function () {
-      verticalVelocity = -5; // Adjust jump height as needed
-      startTrail();
-    });
+            50% {
+                transform: translate(0, -100px);
+            }
 
-    document.addEventListener('mouseup', function () {
-      verticalVelocity = 5; // Adjust fall speed as needed
-      stopTrail();
-    });
+            67% {
+                transform: translate(0, -75px);
+            }
 
-    main();
-  </script>
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <html onclick="move()">
+        <div class="spike" id="spike" style="left:2px"></div>
+        <div onclick="move()" class="cube" style="animation-name:ss;animation-duration:750ms;" id="cube"></div>
+    </html>
+    <button onclick="p()" class="pausetgl">pause</button>
+    <div id="pause" class="pause" style="display:none">
+        <button class="pausebutton" onclick="saveprogress()">save</button><br>
+        <button class="pausebutton" onclick="l()">load</button><br>
+        <input type="file" id="fi">drag save data here</input>
+    </div>
+    <script src="https://raw.githubusercontent.com/yrezgui/FileSaver.js/master/FileSaver.js"></script>
+    <script type="text/javascript">
+        var cube = document.getElementById('cube');
+        var spike = document.getElementById('spike');
+        var speed = 3;
+        var level = 1;
+        var spikeCount = 0; // To count spikes
+        var isAnimating = false;
+
+        function p() {
+            var data = "Level=" + level + "\nSPEED=" + speed;
+            var blob = new Blob([data], { type: "text/plain;charset=utf-8" });
+            saveAs(blob, "savedata");
+        }
+
+        function saveprogress() {
+            var data = {
+                level: level,
+                speed: speed
+            };
+
+            // Convert data to JSON string
+            var jsonData = JSON.stringify(data);
+
+            // Create a new Blob object with the JSON data
+            var blob = new Blob([jsonData], { type: "application/json" });
+
+            // Prompt user to save the file
+            var fileName = "savedata.json";
+            if (window.navigator.msSaveOrOpenBlob) {
+                window.navigator.msSaveOrOpenBlob(blob, fileName);
+            } else {
+                var a = document.createElement("a");
+                var url = URL.createObjectURL(blob);
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function () {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }, 0);
+            }
+        }
+
+        function l() {
+            var fileInput = document.getElementById('fi');
+            var file = fileInput.files[0];
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var loadedData = event.target.result;
+                var jsonData = JSON.parse(loadedData);
+                level = jsonData.level;
+                speed = jsonData.speed;
+            };
+            reader.readAsText(file);
+        }
+
+        document.onkeydown = function (e) {
+            if (e.keyCode == 32) {
+                move()
+            }
+        };
+
+        function move() {
+            if (!isAnimating) {
+                cube.style.animationName = "jump";
+                isAnimating = true;
+                setTimeout(function () {
+                    cube.style.animationName = "";
+                    isAnimating = false;
+                }, 750);
+            }
+        }
+
+        function checkCollision() {
+            var cubeRect = cube.getBoundingClientRect();
+            var spikeRect = spike.getBoundingClientRect();
+
+            if (cubeRect.left < spikeRect.right &&
+                cubeRect.right > spikeRect.left &&
+                cubeRect.top < spikeRect.bottom &&
+                cubeRect.bottom > spikeRect.top) {
+                window.location.href = "gameover.html";
+            }
+        }
+
+        function moveCube() {
+            var currentLeft = parseInt(cube.style.left) || 0;
+            cube.style.left = (currentLeft + speed) + 'px';
+            if (currentLeft >= window.innerWidth) {
+                cube.style.left = "0px";
+                level += 0.25;
+                speed = level * 4;
+                spike.style.left = Math.floor(Math.random() * window.innerWidth) + 'px';
+                spikeCount++;
+
+                // Add a new spike every 10 levels
+                if (spikeCount % 10 === 0) {
+                    var newSpike = document.createElement('div');
+                    newSpike.className = 'spike';
+                    newSpike.style.top = '250px'; // Adjust as needed
+                    newSpike.style.left = Math.floor(Math.random() * window.innerWidth) + 'px';
+                    document.body.appendChild(newSpike);
+                }
+            }
+        }
+        spike.style.left = Math.floor(Math.random() * window.innerWidth) + 'px';
+
+        function main() {
+            moveCube();
+            checkCollision();
+            setTimeout(main, 10);
+        }
+
+        main();
+    </script>
 </body>
-</html>
 
+</html>
