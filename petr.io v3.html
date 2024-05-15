@@ -106,12 +106,11 @@
 	</div>
 	<script>
 		var lines = 0;
-		var cappedLock = 0;
         var score = 0;
         var speed = 100;
         var ba = document.querySelector("p[id='lines']");
         var pa = document.querySelector("p[id='score']");
-		var mus = new Audio("https://raw.githubusercontent.com/GL1TCHTheCoder/GL1TCHTheCoder.github.io/main/Tetris%2099%20-%20Main%20Theme.mp3")
+		var mus = new Audio("tetris_8bit.mp3")
 		mus.play();
         // Save the game state
 function save() {
@@ -214,30 +213,13 @@ function load() {
                         }
                     }
                     clearedLines += 1;
-			cappedLock += 1
                 } else {
                     row--;
                 }
             }
-		
-		if (cappedLock > 10){
-			cappedLock = 0;
-			score += 3500;
-			level += 1;
-			speed = speed/0.75;
-			alert("LEVEL UP! LEVEL: " + level)
-		}
-		
+
             lines += clearedLines;
             ba.innerText = "lines: " + lines;
-		if (clearedLines === 1){
-			score+=level*80
-		} else if(clearedLines===2){
-			score+=level*200
-		}else if (clearedLines===3){
-			score+=level*600
-		}else if (clearedLines===4){
-			score+=level*2400
             score += clearedLines * 100;
             pa.innerText = "score: " + score;
 
@@ -339,7 +321,7 @@ function load() {
             }
 
             if (tetromino) {
-                if (++count > 100/level) {
+                if (++count > speed) {
                     tetromino.row++;
                     count = 0;
 
