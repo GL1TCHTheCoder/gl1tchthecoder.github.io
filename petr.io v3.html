@@ -105,7 +105,7 @@
         <button onclick="selectMode('zen')">Zen Mode</button>
     </div>
     <canvas width="320" height="640" id="game"></canvas>
-    <p id="lines" class="trying">lines: 0</p>
+   <div id="aaa"> <p id="lines" class="trying">lines: 0</p>
     <p id="score" class="score">score: 0</p>
     <button onclick="a()" class="f">Fullscreen</button>
     <audio id="bgm" style="display:none;">
@@ -117,14 +117,16 @@
         <button id="down">↓</button>
         <button id="right">→</button>
         <button id="hardDrop">⇩</button>
-    </div>
+    </div></div>
     <script>
         let mode = 'custom';
-
+        document.getElementById("aaa").style.display="none";
+        
         function selectMode(selectedMode) {
             mode = selectedMode;
             resetGame();
             document.querySelector('.main-menu').style.display = 'none';
+            document.getElementById("aaa").style.display="block";
             document.getElementById('bgm').play();
         }
 
