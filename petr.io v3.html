@@ -383,12 +383,17 @@ function load() {
                     tetromino.matrix = matrix;
                 }
             }
-		if (e.keyCode === 64) {
-                const matrix = rotate(tetromino.matrix);
-                for (var aab=0;aab<3;aab++){if (isValidMove(matrix, tetromino.row, tetromino.col)) {
-                    tetromino.matrix = matrix;
-                }}
-            }
+	if (e.keyCode === 67) { // ASCII code for 'c'
+    for (var i = 0; i < 3; i++) {
+        const rotatedMatrix = rotate(tetromino.matrix);
+        if (isValidMove(rotatedMatrix, tetromino.row, tetromino.col)) {
+            tetromino.matrix = rotatedMatrix;
+        } else {
+            break; // Exit the loop if the rotation is not valid
+        }
+    }
+}
+
         });
 
         document.getElementById('left').addEventListener('click', function () {
