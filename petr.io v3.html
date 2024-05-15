@@ -83,6 +83,9 @@
 	<p id="lines" class="trying">lines: 0</p>
 	<p id="score" class="score">score: 0</p>
 	<button onclick="a()" class="f">Fullscreen</button>
+	<audio style="display:none;">
+		<source src="https://raw.githubusercontent.com/GL1TCHTheCoder/GL1TCHTheCoder.github.io/main/Tetris%2099%20-%20Main%20Theme.mp3" type="audio/mpeg">
+	</audio>
 	<div class="controls">
 		<button id="left">←</button>
 		<button id="rotate">↑</button>
@@ -96,8 +99,7 @@
         var speed = 100;
         var ba = document.querySelector("p[id='lines']");
         var pa = document.querySelector("p[id='score']");
-		var mus = new Audio("https://raw.githubusercontent.com/GL1TCHTheCoder/GL1TCHTheCoder.github.io/main/Tetris%2099%20-%20Main%20Theme.mp3")
-		mus.play();
+		
 
         function getRandomInt(min, max) {
             min = Math.ceil(min);
