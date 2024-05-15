@@ -106,6 +106,7 @@
 	</div>
 	<script>
 		var lines = 0;
+		var cappedLock = 0;
         var score = 0;
         var speed = 100;
         var ba = document.querySelector("p[id='lines']");
@@ -217,9 +218,25 @@ function load() {
                     row--;
                 }
             }
-
+		cappedLock += clearedLines;
+		if (cappedLock > 10){
+			cappedLock = 0;
+			score += 3500;
+			level += 1;
+			speed = speed/0.75;
+			alert("LEVEL UP! LEVEL: " + level)
+		}
+		
             lines += clearedLines;
             ba.innerText = "lines: " + lines;
+		if (clearedLines === 1){
+			score+=level*80
+		} else if(clearedLines===2){
+			score+=level*200
+		}else if (clearedLines===3){
+			score+=level*600
+		}else if (clearedLines===4){
+			score+=level*2400
             score += clearedLines * 100;
             pa.innerText = "score: " + score;
 
@@ -321,7 +338,7 @@ function load() {
             }
 
             if (tetromino) {
-                if (++count > speed) {
+                if (++count > 100/level) {
                     tetromino.row++;
                     count = 0;
 
