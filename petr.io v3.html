@@ -377,11 +377,17 @@ function load() {
                 placeTetromino();
             }
 
-            if (e.keyCode === 67) {
+            if (e.keyCode === 90) {
                 const matrix = rotate(tetromino.matrix);
                 if (isValidMove(matrix, tetromino.row, tetromino.col)) {
                     tetromino.matrix = matrix;
                 }
+            }
+		if (e.keyCode === 64) {
+                const matrix = rotate(tetromino.matrix);
+                for (var aab=0;aab<3;aab++){if (isValidMove(matrix, tetromino.row, tetromino.col)) {
+                    tetromino.matrix = matrix;
+                }}
             }
         });
 
