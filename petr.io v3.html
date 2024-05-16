@@ -2,9 +2,19 @@
 <html>
 
 <head>
-	<title>Basic Tetris HTML Game</title>
+	<title>PETR.IO</title>
 	<meta charset="UTF-8">
 	<style>
+		.lBrd {
+	                position: fixed;
+			left: 2%;
+			top: 5%;
+			height: 80%;
+		        width: 25%;
+			font-size: 20px;
+			border: solid white 4px;
+			background-color: black;
+		}
 		html,
 		body {
 			height: 100%;
@@ -96,10 +106,38 @@
 	<p id="score" class="score">score: 0</p>
 	<button onclick="save()" class="f">Save</button>
     <button onclick="load()" class="g">Load</button>
-    
+        <table class="lBrd">
+		<tHead>
+			<th scope="col">Person</th>
+      <th scope="col">Score</th>
+      <th scope="col">Place</th>
+    </tr>
+		</tHead>
+		<tBody>
+			<tr>
+                               <th scope="row">GL1TCHYT</th>
+                               <td>1,293,564</td>
+                               <td>1.</td>
+                       </tr>
+			<tr>
+                               <th scope="row"></th>
+                               <td></td>
+                               <td>2.</td>
+                       </tr>
+			<tr>
+                               <th scope="row"></th>
+                               <td></td>
+                               <td>3.</td>
+                       </tr>
+			<tr>
+                               <th scope="row"></th>
+                               <td></td>
+                               <td>4.</td>
+                       </tr>
+		</tBody>
 	<div class="controls">
 		<button id="left">←</button>
-		<button id="rotate">↑</button>
+		<button id="rotate">↑</button> 
 		<button id="down">↓</button>
 		<button id="right">→</button>
 		<button id="hardDrop">⇩</button>
