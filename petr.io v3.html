@@ -126,7 +126,7 @@
   <tbody>
     <tr>
       <td>GL1TCHYT</td>
-      <td>1,293,564</td>
+      <td>4200</td>
       <td>1.</td>
     </tr>
     <tr>
@@ -267,10 +267,17 @@ function load() {
                     row--;
                 }
             }
-
+		if (clearedLines === 1) {
+			score += 100;
+		} else if (clearedLines === 2) {
+			score += 300;
+		} else if (clearedLines === 3) {
+			score += 1000;
+		} else if (clearedLines === 4) {
+			score += 2500;
+		}
             lines += clearedLines;
             ba.innerText = "lines: " + lines;
-            score += clearedLines * 100;
             pa.innerText = "score: " + score;
 
             tetromino = getNextTetromino();
