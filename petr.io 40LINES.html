@@ -93,7 +93,7 @@
 <body>
 	<canvas width="320" height="640" id="game"></canvas>
 	<p id="lines" class="trying">lines: 0</p>
-	<p id="score" class="score">score: 0</p>
+	<p id="score" class="score">time: 00:00:00.000</p>
 	<button onclick="save()" class="f">Save</button>
     <button onclick="load()" class="g">Load</button>
     
@@ -105,6 +105,31 @@
 		<button id="hardDrop">⇩</button>
 	</div>
 	<script>
+		var startTime;
+    var timerInterval;
+		var elpsed;
+
+    function startTimer() {
+        startTime = new Date().getTime();
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function updateTimer() {
+        var currentTime = new Date().getTime();
+        var elapsedTime = currentTime - startTime;
+	    elpsed = currentTime - startTime;
+        var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+        var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+
+        hours = (hours < 10) ? "0" + hours : hours;
+        minutes = (minutes < 10) ? "0" + minutes : minutes;
+        seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+        document.querySelector('.score').innerText = hours + ":" + minutes + ":" + seconds;
+    }
+
+    startTimer();
 		var lines = 0;
         var score = 0;
         var speed = 100;
@@ -308,7 +333,7 @@ function load() {
 
         function loop() {
             if (lines < 40) {
-              document.write("<p>u win. reload page to go back or tap here to go to main menu: </p><a href='petrioMain.html'><p>title screen</p></a>");
+              document.write("<p>u win. reload page to go back or tap here to go to main menu: </p><a href='petrioMain.html'><p>title screen</p></a><br><p>time: " + elpsed + "</p>");
             } else {}
             rAF = requestAnimationFrame(loop);
             context.clearRect(0, 0, canvas.width, canvas.height);
