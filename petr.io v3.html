@@ -106,35 +106,45 @@
 	<p id="score" class="score">score: 0</p>
 	<button onclick="save()" class="f">Save</button>
     <button onclick="load()" class="g">Load</button>
-        <table class="lBrd">
-		<tHead>
-			<th scope="col">Person</th>
+        <table style="position: fixed;
+              left: 2%;
+              top: 5%;
+              height: 60%;
+              width: 25%;
+              font-size: 20px;
+              border: solid white 4px;
+              background-color: black;">
+  <thead>
+    <tr>
+      <th scope="col">Person</th>
       <th scope="col">Score</th>
       <th scope="col">Place</th>
     </tr>
-		</tHead>
-		<tBody>
-			<tr>
-                               <th scope="row">GL1TCHYT</th>
-                               <td>1,293,564</td>
-                               <td>1.</td>
-                       </tr>
-			<tr>
-                               <th scope="row"></th>
-                               <td></td>
-                               <td>2.</td>
-                       </tr>
-			<tr>
-                               <th scope="row"></th>
-                               <td></td>
-                               <td>3.</td>
-                       </tr>
-			<tr>
-                               <th scope="row"></th>
-                               <td></td>
-                               <td>4.</td>
-                       </tr>
-		</tBody>
+  </thead>
+  <tbody>
+    <tr>
+      <td>GL1TCHYT</td>
+      <td>1,293,564</td>
+      <td>1.</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>2.</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>3.</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>4.</td>
+    </tr>
+  </tbody>
+</table>
+
 	<div class="controls">
 		<button id="left">←</button>
 		<button id="rotate">↑</button> 
