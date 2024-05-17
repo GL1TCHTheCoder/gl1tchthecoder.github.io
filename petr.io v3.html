@@ -409,7 +409,7 @@ function load() {
         // Preload audio files
 const audioFiles = {
     move: new Audio("Move.m4a"),
-    softDrop: new Audio("SftDrop.m4a"),
+    soft: new Audio("SftDrop.m4a"),
     hardDrop: new Audio("HrdDrop.m4a")
 };
 
@@ -474,7 +474,7 @@ function softDrop() {
     if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
         tetromino.row--;
         placeTetromino();
-        playAudio(audioFiles.softDrop);
+        playAudio(audioFiles.soft);
         return;
     }
     tetromino.row = row;
