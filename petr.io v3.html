@@ -291,10 +291,15 @@ function load() {
             context.fillRect(0, canvas.height / 2 - 30, canvas.width, 60);
             context.globalAlpha = 1;
             context.fillStyle = 'white';
-            context.font = '36px monospace';
+            context.font = '20px monospace';
             context.textAlign = 'center';
             context.textBaseline = 'middle';
-            context.fillText('GAME OVER!', canvas.width / 2, canvas.height / 2);
+            
+		if (score >= wr) {
+			context.fillText('WORLD RECORD! SCORE: ' + score, canvas.width / 2, canvas.height / 2);
+		} else if (score <= wr) {
+			context.fillText('GAME OVER! SCORE: ' + score, canvas.width / 2, canvas.height / 2);
+		}
         }
 
         const canvas = document.getElementById('game');
@@ -407,6 +412,8 @@ function load() {
                 const col = e.which === 37 ? tetromino.col - 1 : tetromino.col + 1;
                 if (isValidMove(tetromino.matrix, tetromino.row, col)) {
                     tetromino.col = col;
+			var mov = new Audio("Move.m4a");
+			mov.play();
                 }
             }
 
@@ -414,6 +421,7 @@ function load() {
                 const matrix = rotate(tetromino.matrix);
                 if (isValidMove(matrix, tetromino.row, tetromino.col)) {
                     tetromino.matrix = matrix;
+			
                 }
             }
 
@@ -423,6 +431,8 @@ function load() {
                     tetromino.row--;
                     placeTetromino();
                     return;
+			var sd = new Audio("SftDrop.m4a");
+			sd.play();
                 }
                 tetromino.row = row;
             }
@@ -430,14 +440,18 @@ function load() {
             if (e.keyCode === 88) {
                 while (isValidMove(tetromino.matrix, tetromino.row + 1, tetromino.col)) {
                     tetromino.row++;
+			var hd = new Audio("HrdDrop.m4a");
+			hd.play();
                 }
                 placeTetromino();
+		    
             }
 
             if (e.keyCode === 90) {
                 const matrix = rotate(tetromino.matrix);
                 if (isValidMove(matrix, tetromino.row, tetromino.col)) {
                     tetromino.matrix = matrix;
+			
                 }
             }
 	if (e.keyCode === 67) { // ASCII code for 'c'
@@ -445,6 +459,7 @@ function load() {
         const rotatedMatrix = rotate(tetromino.matrix);
         if (isValidMove(rotatedMatrix, tetromino.row, tetromino.col)) {
             tetromino.matrix = rotatedMatrix;
+		
         } else {
             break; // Exit the loop if the rotation is not valid
         }
