@@ -413,9 +413,10 @@ function load() {
         const col = e.which === 37 ? tetromino.col - 1 : tetromino.col + 1;
         if (isValidMove(tetromino.matrix, tetromino.row, col)) {
             tetromino.col = col;
-            var mov = new Audio("Move.m4a");
-            mov.play();
+            
         }
+	var mov = new Audio("Move.m4a");
+        mov.play();
     }
 
     if (e.which === 40) {
