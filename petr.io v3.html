@@ -464,6 +464,9 @@ function playAudio(audio) {
     audio.pause();
     audio.currentTime = 0;
     audio.play();
+	audio.onload = function(){
+		console.log("Sound loaded" + audio.src);
+	}
 }
 
 function softDrop() {
