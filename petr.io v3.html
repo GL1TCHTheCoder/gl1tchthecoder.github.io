@@ -407,105 +407,88 @@ function load() {
         }
 
         document.addEventListener('keydown', function (e) {
-            if (gameOver) return;
+    if (gameOver) return;
 
-            if (e.which === 37 || e.which === 39) {
-                const col = e.which === 37 ? tetromino.col - 1 : tetromino.col + 1;
-                if (isValidMove(tetromino.matrix, tetromino.row, col)) {
-                    tetromino.col = col;
-			var mov = new Audio("Move.m4a");
-			mov.play();
-                }
-            }
-
-            if (e.which === 38) {
-                const matrix = rotate(tetromino.matrix);
-                if (isValidMove(matrix, tetromino.row, tetromino.col)) {
-                    tetromino.matrix = matrix;
-			
-                }
-            }
-
-            if (e.which === 40) {
-                const row = tetromino.row + 1;
-                if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
-                    tetromino.row--;
-                    placeTetromino();
-                    return;
-			var sd = new Audio("SftDrop.m4a");
-			sd.play();
-                }
-                tetromino.row = row;
-            }
-
-            if (e.keyCode === 88) {
-                while (isValidMove(tetromino.matrix, tetromino.row + 1, tetromino.col)) {
-                    tetromino.row++;
-			var hd = new Audio("HrdDrop.m4a");
-			hd.play();
-                }
-                placeTetromino();
-		    
-            }
-
-            if (e.keyCode === 90) {
-                const matrix = rotate(tetromino.matrix);
-                if (isValidMove(matrix, tetromino.row, tetromino.col)) {
-                    tetromino.matrix = matrix;
-			
-                }
-            }
-	if (e.keyCode === 67) { // ASCII code for 'c'
-    for (var i = 0; i < 3; i++) {
-        const rotatedMatrix = rotate(tetromino.matrix);
-        if (isValidMove(rotatedMatrix, tetromino.row, tetromino.col)) {
-            tetromino.matrix = rotatedMatrix;
-		
-        } else {
-            break; // Exit the loop if the rotation is not valid
+    if (e.which === 37 || e.which === 39) {
+        const col = e.which === 37 ? tetromino.col - 1 : tetromino.col + 1;
+        if (isValidMove(tetromino.matrix, tetromino.row, col)) {
+            tetromino.col = col;
+            var mov = new Audio("Move.m4a");
+            mov.play();
         }
     }
-}
 
-        });
-
-        document.getElementById('left').addEventListener('click', function () {
-            const col = tetromino.col - 1;
-            if (isValidMove(tetromino.matrix, tetromino.row, col)) {
-                tetromino.col = col;
-            }
-        });
-
-        document.getElementById('right').addEventListener('click', function () {
-            const col = tetromino.col + 1;
-            if (isValidMove(tetromino.matrix, tetromino.row, col)) {
-                tetromino.col = col;
-            }
-        });
-
-        document.getElementById('rotate').addEventListener('click', function () {
-            const matrix = rotate(tetromino.matrix);
-            if (isValidMove(matrix, tetromino.row, tetromino.col)) {
-                tetromino.matrix = matrix;
-            }
-        });
-
-        document.getElementById('down').addEventListener('click', function () {
-            const row = tetromino.row + 1;
-            if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
-                tetromino.row--;
-                placeTetromino();
-                return;
-            }
-            tetromino.row = row;
-        });
-
-        document.getElementById('hardDrop').addEventListener('click', function () {
-            while (isValidMove(tetromino.matrix, tetromino.row + 1, tetromino.col)) {
-                tetromino.row++;
-            }
+    if (e.which === 40) {
+        const row = tetromino.row + 1;
+        if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
+            tetromino.row--;
             placeTetromino();
-        });
+            var sd = new Audio("SftDrop.m4a");
+            sd.play();
+            return;
+        }
+        tetromino.row = row;
+    }
+
+    if (e.keyCode === 88) {
+        while (isValidMove(tetromino.matrix, tetromino.row + 1, tetromino.col)) {
+            tetromino.row++;
+            var hd = new Audio("HrdDrop.m4a");
+            hd.play();
+        }
+        placeTetromino();
+    }
+
+    if (e.keyCode === 67) { // ASCII code for 'c'
+        for (var i = 0; i < 3; i++) {
+            const rotatedMatrix = rotate(tetromino.matrix);
+            if (isValidMove(rotatedMatrix, tetromino.row, tetromino.col)) {
+                tetromino.matrix = rotatedMatrix;
+            } else {
+                break; // Exit the loop if the rotation is not valid
+            }
+        }
+    }
+});
+
+document.getElementById('left').addEventListener('click', function () {
+    const col = tetromino.col - 1;
+    if (isValidMove(tetromino.matrix, tetromino.row, col)) {
+        tetromino.col = col;
+        var mov = new Audio("Move.m4a");
+        mov.play();
+    }
+});
+
+document.getElementById('right').addEventListener('click', function () {
+    const col = tetromino.col + 1;
+    if (isValidMove(tetromino.matrix, tetromino.row, col)) {
+        tetromino.col = col;
+        var mov = new Audio("Move.m4a");
+        mov.play();
+    }
+});
+
+document.getElementById('down').addEventListener('click', function () {
+    const row = tetromino.row + 1;
+    if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
+        tetromino.row--;
+        placeTetromino();
+        var sd = new Audio("SftDrop.m4a");
+        sd.play();
+        return;
+    }
+    tetromino.row = row;
+});
+
+document.getElementById('hardDrop').addEventListener('click', function () {
+    while (isValidMove(tetromino.matrix, tetromino.row + 1, tetromino.col)) {
+        tetromino.row++;
+        var hd = new Audio("HrdDrop.m4a");
+        hd.play();
+    }
+    placeTetromino();
+});
 
         rAF = requestAnimationFrame(loop);
 
