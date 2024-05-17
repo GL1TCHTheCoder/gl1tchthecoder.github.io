@@ -406,49 +406,34 @@ function load() {
             }
         }
 
-        document.addEventListener('keydown', function (e) {
+        // Preload audio files
+const audioFiles = {
+    move: new Audio("Move.m4a"),
+    softDrop: new Audio("SftDrop.m4a"),
+    hardDrop: new Audio("HrdDrop.m4a")
+};
+
+document.addEventListener('keydown', function (e) {
     if (gameOver) return;
 
     if (e.which === 37 || e.which === 39) {
         const col = e.which === 37 ? tetromino.col - 1 : tetromino.col + 1;
         if (isValidMove(tetromino.matrix, tetromino.row, col)) {
             tetromino.col = col;
-            
+            playAudio(audioFiles.move);
         }
-	var mov = new Audio("Move.m4a");
-        mov.play();
     }
 
     if (e.which === 40) {
-        const row = tetromino.row + 1;
-        if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
-            tetromino.row--;
-            placeTetromino();
-            var sd = new Audio("SftDrop.m4a");
-            sd.play();
-            return;
-        }
-        tetromino.row = row;
+        softDrop();
     }
 
     if (e.keyCode === 88) {
-        while (isValidMove(tetromino.matrix, tetromino.row + 1, tetromino.col)) {
-            tetromino.row++;
-            var hd = new Audio("HrdDrop.m4a");
-            hd.play();
-        }
-        placeTetromino();
+        hardDrop();
     }
 
     if (e.keyCode === 67) { // ASCII code for 'c'
-        for (var i = 0; i < 3; i++) {
-            const rotatedMatrix = rotate(tetromino.matrix);
-            if (isValidMove(rotatedMatrix, tetromino.row, tetromino.col)) {
-                tetromino.matrix = rotatedMatrix;
-            } else {
-                break; // Exit the loop if the rotation is not valid
-            }
-        }
+        rotateTetromino();
     }
 });
 
@@ -456,8 +441,7 @@ document.getElementById('left').addEventListener('click', function () {
     const col = tetromino.col - 1;
     if (isValidMove(tetromino.matrix, tetromino.row, col)) {
         tetromino.col = col;
-        var mov = new Audio("Move.m4a");
-        mov.play();
+        playAudio(audioFiles.move);
     }
 });
 
@@ -465,31 +449,49 @@ document.getElementById('right').addEventListener('click', function () {
     const col = tetromino.col + 1;
     if (isValidMove(tetromino.matrix, tetromino.row, col)) {
         tetromino.col = col;
-        var mov = new Audio("Move.m4a");
-        mov.play();
+        playAudio(audioFiles.move);
     }
 });
 
-document.getElementById('down').addEventListener('click', function () {
+document.getElementById('down').addEventListener('click', softDrop);
+
+document.getElementById('hardDrop').addEventListener('click', hardDrop);
+
+function playAudio(audio) {
+    audio.pause();
+    audio.currentTime = 0;
+    audio.play();
+}
+
+function softDrop() {
     const row = tetromino.row + 1;
     if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
         tetromino.row--;
         placeTetromino();
-        var sd = new Audio("SftDrop.m4a");
-        sd.play();
+        playAudio(audioFiles.softDrop);
         return;
     }
     tetromino.row = row;
-});
+}
 
-document.getElementById('hardDrop').addEventListener('click', function () {
+function hardDrop() {
     while (isValidMove(tetromino.matrix, tetromino.row + 1, tetromino.col)) {
         tetromino.row++;
-        var hd = new Audio("HrdDrop.m4a");
-        hd.play();
     }
     placeTetromino();
-});
+    playAudio(audioFiles.hardDrop);
+}
+
+function rotateTetromino() {
+    for (var i = 0; i < 3; i++) {
+        const rotatedMatrix = rotate(tetromino.matrix);
+        if (isValidMove(rotatedMatrix, tetromino.row, tetromino.col)) {
+            tetromino.matrix = rotatedMatrix;
+        } else {
+            break; // Exit the loop if the rotation is not valid
+        }
+    }
+}
 
         rAF = requestAnimationFrame(loop);
 
