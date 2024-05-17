@@ -161,8 +161,10 @@
         var speed = 100;
         var ba = document.querySelector("p[id='lines']");
         var pa = document.querySelector("p[id='score']");
-		var mus = new Audio("tetris_8bit.mp3")
-		mus.play();
+		const aud1132 = {
+			mus: new Audio("tetris_8bit.mp3");
+		}
+		aud1132.mus.play();
         // Save the game state
 function save() {
     localStorage.setItem('tetrisGameState', JSON.stringify({
@@ -298,6 +300,10 @@ function load() {
             
 		if (score >= wr) {
 			context.fillText('WORLD RECORD! SCORE: ' + score, canvas.width / 2, canvas.height / 2);
+			const wawawa123 = {
+				wad: new Audio("World Record.m4a")
+			}
+			wawawa123.wad.play();
 		} else if (score <= wr) {
 			context.fillText('GAME OVER! SCORE: ' + score, canvas.width / 2, canvas.height / 2);
 		}
