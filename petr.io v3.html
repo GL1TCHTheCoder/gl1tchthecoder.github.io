@@ -1,192 +1,196 @@
-<!doctype html><html><head></head><body><!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
-	<title>PETR.IO</title>
-	<meta charset="UTF-8">
-	<style>
-		.lBrd {
-	                position: fixed;
-			left: 2%;
-			top: 5%;
-			height: 80%;
-		        width: 25%;
-			font-size: 20px;
-			border: solid white 4px;
-			background-color: black;
-		}
-		html,
-		body {
-			height: 100%;
-			margin: 0;
-		}
+    <title>PETR.IO</title>
+    <meta charset="UTF-8">
+    <style>
+        .lBrd {
+            position: fixed;
+            left: 2%;
+            top: 5%;
+            height: 80%;
+            width: 25%;
+            font-size: 20px;
+            border: solid white 4px;
+            background-color: black;
+        }
 
-		.trying {
-			color: white;
-			position: fixed;
-			top: 8%;
-			left: 35%;
-			font-family: monospace;
-			font-size: 18px;
-		}
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
 
-		.f {
-			top: 10px;
-			left: 10px;
-			position: fixed;
-			width: 12%;
-			height: 10%;
-			background-color: rgba(100, 100, 100, 0.5);
-			border-radius: 5px;
-			color: white;
-			font-size: 18px;
-			text-align: center;
-		}
+        .trying {
+            color: white;
+            position: fixed;
+            top: 8%;
+            left: 35%;
+            font-family: monospace;
+            font-size: 18px;
+        }
+
+        .f {
+            top: 10px;
+            left: 10px;
+            position: fixed;
+            width: 12%;
+            height: 10%;
+            background-color: rgba(100, 100, 100, 0.5);
+            border-radius: 5px;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+        }
 
         .g {
-			top: 10px;
-			right: 10px;
-			position: fixed;
-			width: 12%;
-			height: 10%;
-			background-color: rgba(100, 100, 100, 0.5);
-			border-radius: 5px;
-			color: white;
-			font-size: 18px;
-			text-align: center;
-		}
-		.score {
-			color: white;
-			position: fixed;
-			top: 0%;
-			left: 35%;
-			font-family: monospace;
-			font-size: 18px;
-		}
+            top: 10px;
+            right: 10px;
+            position: fixed;
+            width: 12%;
+            height: 10%;
+            background-color: rgba(100, 100, 100, 0.5);
+            border-radius: 5px;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+        }
 
-		body {
-			background: black;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
+        .score {
+            color: white;
+            position: fixed;
+            top: 0%;
+            left: 35%;
+            font-family: monospace;
+            font-size: 18px;
+        }
 
-		canvas {
-			border: 1px solid white;
-			height: 70%;
-			position: fixed;
-			top: 20%;
-		}
+        body {
+            background: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-		.controls {
-			position: fixed;
-			bottom: 10px;
-			left: 50%;
-			transform: translateX(-50%);
-			display: flex;
-			justify-content: space-around;
-			width: 90%;
-		}
+        canvas {
+            border: 1px solid white;
+            height: 70%;
+            position: fixed;
+            top: 20%;
+        }
 
-		.controls button {
-			width: 50px;
-			height: 50px;
-			background-color: rgba(100, 100, 100, 0.5);
-			border: none;
-			color: white;
-			font-size: 18px;
-			border-radius: 5px;
-		}
-	</style>
+        .controls {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-around;
+            width: 90%;
+        }
+
+        .controls button {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(100, 100, 100, 0.5);
+            border: none;
+            color: white;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 
 <body>
-	<canvas width="320" height="640" id="game"></canvas>
-	<p id="lines" class="trying">lines: 0</p>
-	<p id="score" class="score">score: 0</p>
-	<button onclick="save()" class="f">Save</button>
+    <canvas width="320" height="640" id="game"></canvas>
+    <p id="lines" class="trying">lines: 0</p>
+    <p id="score" class="score">score: 0</p>
+    <button onclick="save()" class="f">Save</button>
     <button onclick="load()" class="g">Load</button>
-        <table style="position: fixed;
+    <table style="position: fixed;
               left: 2%;
               bottom: 10%;
               height: 80%;
               width: 25%;
               font-size: 20px;
-		font-family: monospace;
-		color: rgba(255,255,255,1);
+              font-family: monospace;
+              color: rgba(255, 255, 255, 1);
               border: solid white 4px;
               background-color: rgba(0, 0, 0, 1);">
-  <thead>
-    <tr>
-      <th scope="col">Person</th>
-      <th scope="col">Score</th>
-      <th scope="col">Place</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>GL1TCHYT</td>
-      <td>4200</td>
-      <td>1.</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td>2.</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td>3.</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td>4.</td>
-    </tr>
-  </tbody>
-</table>
+        <thead>
+            <tr>
+                <th scope="col">Person</th>
+                <th scope="col">Score</th>
+                <th scope="col">Place</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>GL1TCHYT</td>
+                <td>7500fi</td>
+                <td>1.</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>2.</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>3.</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>4.</td>
+            </tr>
+        </tbody>
+    </table>
 
-	<div class="controls">
-		<button id="left">←</button>
-		<button id="rot">↑</button> 
-		<button id="down">↓</button>
-		<button id="right">→</button>
-		<button id="hardDrop">⇩</button>
-	</div>
-	<script>
-		var wr = 4900;
-		var lines = 0;
+    <div class="controls">
+        <button id="left">←</button>
+        <button id="rot">↑</button>
+        <button id="down">↓</button>
+        <button id="right">→</button>
+        <button id="hardDrop">⇩</button>
+    </div>
+    <script>
+	    var hold;
+        var wr = 7500;
+        var lines = 0;
         var score = 0;
         var speed = 100;
         var ba = document.querySelector("p[id='lines']");
         var pa = document.querySelector("p[id='score']");
-		var mus = new Audio("tetris_8bit.mp3")
-		mus.play();
+        var mus = new Audio("tetris_8bit.mp3")
+        mus.play();
+
         // Save the game state
-function save() {
-    localStorage.setItem('tetrisGameState', JSON.stringify({
-        'playfield': playfield,
-        'lines': lines,
-        'score': score
-    }));
-}
+        function save() {
+            localStorage.setItem('tetrisGameState', JSON.stringify({
+                'playfield': playfield,
+                'lines': lines,
+                'score': score
+            }));
+        }
 
-// Load the game state
-function load() {
-    const savedState = JSON.parse(localStorage.getItem('tetrisGameState'));
-    if (savedState) {
-        playfield = savedState.playfield;
-        lines = savedState.lines;
-        score = savedState.score;
-        ba.innerText = "lines: " + lines;
-        pa.innerText = "score: " + score;
-    }
-}
+        // Load the game state
+        function load() {
+            const savedState = JSON.parse(localStorage.getItem('tetrisGameState'));
+            if (savedState) {
+                playfield = savedState.playfield;
+                lines = savedState.lines;
+                score = savedState.score;
+                ba.innerText = "lines: " + lines;
+                pa.innerText = "score: " + score;
+            }
+        }
 
-// Call these functions where necessary, such as after game over or on load
+        // Call these functions where necessary, such as after game over or on load
 
-            
+
         function getRandomInt(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
@@ -268,15 +272,15 @@ function load() {
                     row--;
                 }
             }
-		if (clearedLines === 1) {
-			score += 100;
-		} else if (clearedLines === 2) {
-			score += 300;
-		} else if (clearedLines === 3) {
-			score += 1000;
-		} else if (clearedLines === 4) {
-			score += 2500;
-		}
+            if (clearedLines === 1) {
+                score += 100;
+            } else if (clearedLines === 2) {
+                score += 300;
+            } else if (clearedLines === 3) {
+                score += 1000;
+            } else if (clearedLines === 4) {
+                score += 2500;
+            }
             lines += clearedLines;
             ba.innerText = "lines: " + lines;
             pa.innerText = "score: " + score;
@@ -295,12 +299,12 @@ function load() {
             context.font = '20px monospace';
             context.textAlign = 'center';
             context.textBaseline = 'middle';
-            
-		if (score >= wr) {
-			context.fillText('WORLD RECORD! SCORE: ' + score, canvas.width / 2, canvas.height / 2);
-		} else if (score <= wr) {
-			context.fillText('GAME OVER! SCORE: ' + score, canvas.width / 2, canvas.height / 2);
-		}
+
+            if (score >= wr) {
+                context.fillText('WORLD RECORD! SCORE: ' + score, canvas.width / 2, canvas.height / 2);
+            } else if (score <= wr) {
+                context.fillText('GAME OVER! SCORE: ' + score, canvas.width / 2, canvas.height / 2);
+            }
         }
 
         const canvas = document.getElementById('game');
@@ -407,97 +411,109 @@ function load() {
         }
 
         // Preload audio files
-const audioFiles = {
-    move: new Audio("Move.m4a"),
-    soft: new Audio("SftDrop.m4a"),
-    hardDrop: new Audio("HrdDrop.m4a")
-};
+        const audioFiles = {
+            move: new Audio("Move.m4a"),
+            soft: new Audio("SftDrop.m4a"),
+            hardDrop: new Audio("HrdDrop.m4a")
+        };
 
-document.addEventListener('keydown', function (e) {
-    if (gameOver) return;
+        document.addEventListener('keydown', function (e) {
+            if (gameOver) return;
 
-    if (e.which === 37 || e.which === 39) {
-        const col = e.which === 37 ? tetromino.col - 1 : tetromino.col + 1;
-        if (isValidMove(tetromino.matrix, tetromino.row, col)) {
-            tetromino.col = col;
-            playAudio(audioFiles.move);
+            if (e.which === 37 || e.which === 39) {
+                const col = e.which === 37 ? tetromino.col - 1 : tetromino.col + 1;
+                if (isValidMove(tetromino.matrix, tetromino.row, col)) {
+                    tetromino.col = col;
+                    playAudio(audioFiles.move);
+                }
+            }
+
+            if (e.which === 40) {
+                softDrop();
+            }
+
+            if (e.keyCode === 88) {
+                hardDrop();
+            }
+
+            if (e.keyCode === 67) { // ASCII code for 'c'
+                rotateTetromino();
+            }
+
+            if (e.key === 's') {
+                changeHoldPiece();
+            }
+        });
+
+        document.getElementById('left').addEventListener('click', function () {
+            const col = tetromino.col - 1;
+            if (isValidMove(tetromino.matrix, tetromino.row, col)) {
+                tetromino.col = col;
+                playAudio(audioFiles.move);
+            }
+        });
+
+        document.getElementById('right').addEventListener('click', function () {
+            const col = tetromino.col + 1;
+            if (isValidMove(tetromino.matrix, tetromino.row, col)) {
+                tetromino.col = col;
+                playAudio(audioFiles.move);
+            }
+        });
+
+        document.getElementById('down').addEventListener('click', softDrop);
+
+        document.getElementById('hardDrop').addEventListener('click', hardDrop);
+
+        document.getElementById('rot').addEventListener('click', rotateTetromino);
+
+
+        function playAudio(audio) {
+            audio.pause();
+            audio.currentTime = 0;
+            audio.play();
+            audio.onload = function () {
+                console.log("Sound loaded" + audio.src);
+            }
         }
-    }
 
-    if (e.which === 40) {
-        softDrop();
-    }
-
-    if (e.keyCode === 88) {
-        hardDrop();
-    }
-
-    if (e.keyCode === 67) { // ASCII code for 'c'
-        rotateTetromino();
-    }
-});
-
-document.getElementById('left').addEventListener('click', function () {
-    const col = tetromino.col - 1;
-    if (isValidMove(tetromino.matrix, tetromino.row, col)) {
-        tetromino.col = col;
-        playAudio(audioFiles.move);
-    }
-});
-
-document.getElementById('right').addEventListener('click', function () {
-    const col = tetromino.col + 1;
-    if (isValidMove(tetromino.matrix, tetromino.row, col)) {
-        tetromino.col = col;
-        playAudio(audioFiles.move);
-    }
-});
-
-document.getElementById('down').addEventListener('click', softDrop);
-
-document.getElementById('hardDrop').addEventListener('click', hardDrop);
-		
-document.getElementById('rot').addEventListener('click', rotateTetromino);
-		
-
-function playAudio(audio) {
-    audio.pause();
-    audio.currentTime = 0;
-    audio.play();
-	audio.onload = function(){
-		console.log("Sound loaded" + audio.src);
-	}
-}
-
-function softDrop() {
-    const row = tetromino.row + 1;
-    if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
-        tetromino.row--;
-        placeTetromino();
-        playAudio(audioFiles.soft);
-        return;
-    }
-    tetromino.row = row;
-}
-
-function hardDrop() {
-    while (isValidMove(tetromino.matrix, tetromino.row + 1, tetromino.col)) {
-        tetromino.row++;
-    }
-    placeTetromino();
-    playAudio(audioFiles.hardDrop);
-}
-
-function rotateTetromino() {
-    for (var i = 0; i < 3; i++) {
-        const rotatedMatrix = rotate(tetromino.matrix);
-        if (isValidMove(rotatedMatrix, tetromino.row, tetromino.col)) {
-            tetromino.matrix = rotatedMatrix;
-        } else {
-            break; // Exit the loop if the rotation is not valid
+        function softDrop() {
+            const row = tetromino.row + 1;
+            if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
+                tetromino.row--;
+                placeTetromino();
+                playAudio(audioFiles.soft);
+                return;
+            }
+            tetromino.row = row;
         }
-    }
+
+        function hardDrop() {
+            while (isValidMove(tetromino.matrix, tetromino.row + 1, tetromino.col)) {
+                tetromino.row++;
+            }
+            placeTetromino();
+            playAudio(audioFiles.hardDrop);
+        }
+
+        function rotateTetromino() {
+            for (var i = 0; i < 3; i++) {
+                const rotatedMatrix = rotate(tetromino.matrix);
+                if (isValidMove(rotatedMatrix, tetromino.row, tetromino.col)) {
+                    tetromino.matrix = rotatedMatrix;
+                } else {
+                    break; // Exit the loop if the rotation is not valid
+                }
+            }
+        }
+
+        function changeHoldPiece() {
+    var temp = hold;
+    hold = tetromino;
+    tetromino = temp;
+    console.log("Hold piece changed!");
 }
+
 
         rAF = requestAnimationFrame(loop);
 
@@ -510,7 +526,7 @@ function rotateTetromino() {
         if (pr != null) {
             speed = pr;
         }
-	</script>
+    </script>
 </body>
 
-</html></body><html>
+</html>
