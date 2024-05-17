@@ -149,7 +149,7 @@
 
 	<div class="controls">
 		<button id="left">←</button>
-		<button id="rotate">↑</button> 
+		<button id="rot">↑</button> 
 		<button id="down">↓</button>
 		<button id="right">→</button>
 		<button id="hardDrop">⇩</button>
@@ -456,6 +456,9 @@ document.getElementById('right').addEventListener('click', function () {
 document.getElementById('down').addEventListener('click', softDrop);
 
 document.getElementById('hardDrop').addEventListener('click', hardDrop);
+		
+document.getElementById('rot').addEventListener('click', rotateTetromino);
+		
 
 function playAudio(audio) {
     audio.pause();
