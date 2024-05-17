@@ -508,9 +508,13 @@
         }
 
         function changeHoldPiece() {
-    var temp = hold;
-    hold = tetromino;
-    tetromino = temp;
+    if (hold) {
+        var temp = hold;
+        hold = tetromino;
+        tetromino = temp;
+    } else {
+        tetromino = getNextTetromino();
+    }
     console.log("Hold piece changed!");
 }
 
